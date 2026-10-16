@@ -9,7 +9,7 @@ datotekama, dozvole i sigurnost te traženje pomoći.
 1. Prebaci CIJELI direktorij ove igre gdje god želiš na svom računalu
    (npr. `~/igre/uciLinux`)
 2. Otvori terminal u tom direktoriju
-3. Pokreni jednom: `chmod +x uci_linux.sh` (daje dozvolu za pokretanje)
+3. Pokreni jednom: `chmod +x uciLinux.sh` (daje dozvolu za pokretanje)
 
 Igra radi neovisno o tome gdje je direktorij smješten - ne mora biti u
 `$HOME`.
@@ -17,7 +17,7 @@ Igra radi neovisno o tome gdje je direktorij smješten - ne mora biti u
 ## Pokretanje
 
 ```
-./uci_linux.sh
+./uciLinux.sh
 ```
 
 ## Kako igra radi
@@ -40,11 +40,11 @@ Igra radi neovisno o tome gdje je direktorij smješten - ne mora biti u
 ## Gdje se datoteke spremaju
 
 Igra sama kreira sve svoje datoteke **u istom direktoriju u kojem se
-nalazi `uci_linux.sh`**, bez obzira odakle je pokrenuta:
+nalazi `uciLinux.sh`**, bez obzira odakle je pokrenuta:
 
 ```
 uciLinux/
-    ├── uci_linux.sh
+    ├── uciLinux.sh
     ├── linux_avantura_dnevnik.txt   ← dnevnik napretka (bilježi svaku
     │                                   igru, badge i postignuće)
     └── linux_certifikat_<korisnik>.txt  ← certifikat na kraju avanture
