@@ -325,6 +325,11 @@ def dobij_ocjenu(tocni, ukupno, tezina):
             return "📖 VJEŽBAJ JOŠ!", 1
 
 # --- Funkcije za spremanje rezultata ---
+def _sigurno_ime(ime):
+    """Ime igrača za naziv datoteke: zamijeni znakove koji nisu dozvoljeni (npr. / \\ :)"""
+    sigurno = "".join(c if (c.isalnum() or c in "-_ ") else "_" for c in ime).strip()
+    return sigurno or "igrac"
+
 def kreiraj_direktorij_za_rezultate():
     glavni_dir = "rezultati"
     if not os.path.exists(glavni_dir):
@@ -338,13 +343,13 @@ def kreiraj_direktorij_za_rezultate():
     return datum_dir
 
 def spremi_rezultate(ime_igraca, broj_pitanja, tocni_odgovori, krivi_odgovori, 
-                     bodovi, start_vrijeme, ishod, ocjena, dodatni_tekst=""):
+                     bodovi, start_vrijeme, ishod, ocjena, dodatni_tekst="", tezina=""):
     datum_dir = kreiraj_direktorij_za_rezultate()
     
     sada = datetime.now()
     vrijeme_str = sada.strftime('%Hh%Mm')
     
-    ime_datoteke = f"rezultati_{ime_igraca}_{vrijeme_str}"
+    ime_datoteke = f"rezultati_{_sigurno_ime(ime_igraca)}_{vrijeme_str}"
     if ishod == "PREKINUTO":
         ime_datoteke += "-PREKINUTO"
     ime_datoteke += ".txt"
@@ -354,9 +359,9 @@ def spremi_rezultate(ime_igraca, broj_pitanja, tocni_odgovori, krivi_odgovori,
     brojac = 1
     while os.path.exists(putanja):
         if ishod == "PREKINUTO":
-            ime_datoteke = f"rezultati_{ime_igraca}_{vrijeme_str}-PREKINUTO_{brojac}.txt"
+            ime_datoteke = f"rezultati_{_sigurno_ime(ime_igraca)}_{vrijeme_str}-PREKINUTO_{brojac}.txt"
         else:
-            ime_datoteke = f"rezultati_{ime_igraca}_{vrijeme_str}_{brojac}.txt"
+            ime_datoteke = f"rezultati_{_sigurno_ime(ime_igraca)}_{vrijeme_str}_{brojac}.txt"
         putanja = os.path.join(datum_dir, ime_datoteke)
         brojac += 1
     
@@ -371,6 +376,8 @@ def spremi_rezultate(ime_igraca, broj_pitanja, tocni_odgovori, krivi_odgovori,
             f.write("  REZULTATI - INFORMATIKA METEORI\n")
             f.write("=" * 50 + "\n")
             f.write(f"Igrač:        {ime_igraca}\n")
+            if tezina:
+                f.write(f"Težina:       {tezina}\n")
             f.write(f"Broj pitanja:  {broj_pitanja}\n")
             f.write(f"Datum:        {datetime.now().strftime('%d.%m.%Y. %H:%M:%S')}\n")
             f.write(f"Ishod:        {ishod}\n")
@@ -846,7 +853,7 @@ def igraj(stdscr, ime_igraca, broj_pitanja, naziv_tezine, brzina_pada):
         ocjena, boja = dobij_ocjenu(tocni, len(pitanja_za_igru), naziv_tezine)
         spremi_rezultate(ime_igraca, len(pitanja_za_igru), tocni, krivi, 
                         bodovi, start_vrijeme, "PREKINUTO", ocjena,
-                        "Igra prekinuta (ESC)")
+                        "Igra prekinuta (ESC)", naziv_tezine)
         
         stdscr.clear()
         cy = visina // 2
@@ -872,13 +879,13 @@ def igraj(stdscr, ime_igraca, broj_pitanja, naziv_tezine, brzina_pada):
         ocjena, boja = dobij_ocjenu(tocni, len(pitanja_za_igru), naziv_tezine)
         spremi_rezultate(ime_igraca, len(pitanja_za_igru), tocni, krivi, 
                         bodovi, start_vrijeme, "GAME OVER", ocjena,
-                        "Meteori su uništili Zemlju!")
+                        "Meteori su uništili Zemlju!", naziv_tezine)
         prikazi_kraj("☄️  GAME OVER  ☄️", 1, ocjena)
     else:
         ocjena, boja = dobij_ocjenu(tocni, len(pitanja_za_igru), naziv_tezine)
         spremi_rezultate(ime_igraca, len(pitanja_za_igru), tocni, krivi, 
                         bodovi, start_vrijeme, "POBJEDA", ocjena,
-                        "Spašena je Zemlja!")
+                        "Spašena je Zemlja!", naziv_tezine)
         prikazi_kraj("🏆  POBJEDA!  🏆", 3, ocjena)
     
     return bodovi
