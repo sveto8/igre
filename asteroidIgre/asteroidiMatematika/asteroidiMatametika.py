@@ -325,7 +325,7 @@ def spremi_rezultate(ime_igraca, max_broj, cilj_bodova, tezina, bodovi, tocnih_o
             f.write(f"Cilj:         {cilj_bodova} bodova\n")
             f.write(f"Maks. broj:   {max_broj}\n")
             f.write(f"Datum:        {datetime.now().strftime('%d.%m.%Y. %H:%M:%S')}\n")
-            f.write(f"Is hod:       {ishod}\n")
+            f.write(f"Ishod:        {ishod}\n")
             if dodatni_tekst:
                 f.write(f"Napomena:     {dodatni_tekst}\n")
             f.write("-" * 50 + "\n")
