@@ -1,15 +1,6 @@
 #!/bin/bash
 
 # ============================================
-# DEBUG - PROVJERI VARIJABLE
-# ============================================
-
-echo "=== DEBUG INFO ==="
-echo "SHELL: $SHELL"
-echo "HOME: $HOME"
-echo "=================="
-
-# ============================================
 # LINUX AVANTURA - IGRA ZA UČENJE LINUXA
 # (VERZIJA S IZBOROM ODGOVORA A/B/C/D)
 # ============================================
@@ -125,10 +116,6 @@ DNEVNIK="$GLAVNI_DIR/linux_avantura_dnevnik.txt"
 CERTIFIKAT="$GLAVNI_DIR/linux_certifikat_${KORISNIK}.txt"
 IGRA_TMP_DIR="$GLAVNI_DIR/.igra_tmp"
 
-echo "SKRIPTA_DIR: $SKRIPTA_DIR"
-echo "GLAVNI_DIR: $GLAVNI_DIR"
-echo "DNEVNIK: $DNEVNIK"
-echo "CERTIFIKAT: $CERTIFIKAT"
 
 if [ ! -d "$GLAVNI_DIR" ]; then
     echo -e "${ZUTO}📁 KREIRAM DIREKTORIJ: $GLAVNI_DIR${NORMALNO}"
