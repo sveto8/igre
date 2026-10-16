@@ -86,6 +86,8 @@ def _zbroj_oduz(max_br):
     def gen():
         a = random.randint(1, max_br)
         op = random.choice(['+', '-'])
+        if a >= max_br:
+            op = '-'  # zbroj bi prešao najveći dopušteni broj
         if op == '+':
             max_b = max_br - a
             if max_b < 1:
@@ -269,6 +271,11 @@ def izbornik():
 
 
 # ──────────────────────────────────────────────
+def _sigurno_ime(ime):
+    """Ime igrača za naziv datoteke: zamijeni znakove koji nisu dozvoljeni (npr. / \\ :)"""
+    sigurno = "".join(c if (c.isalnum() or c in "-_ ") else "_" for c in ime).strip()
+    return sigurno or "igrac"
+
 def kreiraj_direktorij_za_rezultate():
     """Kreiraj direktorijsku strukturu za rezultate"""
     glavni_dir = "rezultati"
@@ -293,7 +300,7 @@ def spremi_rezultate(ime_igraca, max_broj, cilj_bodova, tezina, bodovi, tocnih_o
     minute = sada.strftime('%M')
     vrijeme_str = f"{sati}h{minute}m"
     
-    ime_datoteke = f"rezultati_{ime_igraca}_{vrijeme_str}"
+    ime_datoteke = f"rezultati_{_sigurno_ime(ime_igraca)}_{vrijeme_str}"
     
     if ishod == "PREKINUTO":
         ime_datoteke += "-PREKINUTO"
@@ -304,9 +311,9 @@ def spremi_rezultate(ime_igraca, max_broj, cilj_bodova, tezina, bodovi, tocnih_o
     brojac = 1
     while os.path.exists(putanja):
         if ishod == "PREKINUTO":
-            ime_datoteke = f"rezultati_{ime_igraca}_{vrijeme_str}-PREKINUTO_{brojac}.txt"
+            ime_datoteke = f"rezultati_{_sigurno_ime(ime_igraca)}_{vrijeme_str}-PREKINUTO_{brojac}.txt"
         else:
-            ime_datoteke = f"rezultati_{ime_igraca}_{vrijeme_str}_{brojac}.txt"
+            ime_datoteke = f"rezultati_{_sigurno_ime(ime_igraca)}_{vrijeme_str}_{brojac}.txt"
         putanja = os.path.join(datum_dir, ime_datoteke)
         brojac += 1
     
